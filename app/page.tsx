@@ -50,12 +50,15 @@ export default function Home() {
     const newData = data.map((column: any) => ({
       ...column,
       id: `c-${column.id}`,
-      tasks: column.tasks.map((task: any) => ({
-        ...task,
-        id: `task${task.id}`,
-      })),
+      tasks: column.tasks
+        .sort((a: any, b: any) => {
+          return a.order - b.order;
+        })
+        .map((task: any) => ({
+          ...task,
+          id: `task${task.id}`,
+        })),
     }));
-    console.log(newData);
     setColumnTasks(newData);
   };
 
@@ -65,11 +68,8 @@ export default function Home() {
   }, []);
 
   const handleDragTask = (event: DropResult) => {
-    console.log(event);
     const { destination, source, draggableId } = event;
-    if (!destination) {
-      return;
-    }
+    if (!destination) return;
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
@@ -77,19 +77,22 @@ export default function Home() {
       return;
     }
     if (!columnTasks) return;
-    if (destination.droppableId == source.droppableId) return;
     const columnIndex = columnTasks.findIndex(
       (column: any) => column.id == source.droppableId
     );
     const columnDestinyIndex = columnTasks.findIndex(
       (column: any) => column.id == destination.droppableId
     );
-    if (columnIndex == -1 && columnDestinyIndex == -1) return;
     const newColumnsTasks = [...columnTasks];
     const taskIndex = newColumnsTasks[columnIndex].tasks.findIndex(
       (task: any) => task.id == draggableId
     );
     const task = newColumnsTasks[columnIndex].tasks.splice(taskIndex, 1);
+    if (destination.droppableId == source.droppableId) {
+      newColumnsTasks[columnIndex].tasks.splice(destination.index, 0, task[0]);
+      return;
+    }
+    if (columnIndex == -1 && columnDestinyIndex == -1) return;
     newColumnsTasks[columnDestinyIndex].tasks.splice(
       destination.index,
       0,
@@ -120,7 +123,7 @@ export default function Home() {
                 <Row>
                   {columnTasks
                     ? columnTasks.map((column) => (
-                        <ColumnComponent column={column} />
+                        <ColumnComponent column={column} key={column.id} />
                       ))
                     : null}
                 </Row>
