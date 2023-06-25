@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import { useEffect, useState } from "react";
 import { getData } from "./api/column";
 import ColumnComponent from "./components/column";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
 
 export default function Home() {
   const [columnTasks, setColumnTasks] = useState<any[]>([]);
@@ -19,7 +19,43 @@ export default function Home() {
     getDataColumns();
   }, []);
 
-  const handleDragEnd = () => {};
+  const handleDragTask = (event: DropResult) => {
+    const { destination, source, draggableId } = event;
+    if (!destination) {
+      return;
+    }
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+    if (!columnTasks) return;
+    const columnIndex = columnTasks.findIndex(
+      (column: any) => `c-${column.id}` == source.droppableId
+    );
+    const columnDestinyIndex = columnTasks.findIndex(
+      (column: any) => `c-${column.id}` == destination.droppableId
+    );
+    if (columnIndex == -1 && columnDestinyIndex == -1) return;
+    const newColumnsTasks = [...columnTasks];
+    const taskIndex = newColumnsTasks[columnIndex].tasks.findIndex(
+      (task: any) => `t-${task.id}` == draggableId
+    );
+    const task = newColumnsTasks[columnIndex].tasks.splice(taskIndex, 1);
+    newColumnsTasks[columnDestinyIndex].tasks.splice(
+      destination.index,
+      0,
+      task[0]
+    );
+    console.log(newColumnsTasks);
+    setColumnTasks(newColumnsTasks);
+    // setDataTasks(newColumns);
+  };
+
+  const handleDragEnd = (event: DropResult) => {
+    handleDragTask(event);
+  };
 
   return (
     <>

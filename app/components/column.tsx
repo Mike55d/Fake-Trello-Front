@@ -3,16 +3,10 @@ import { Row, Col } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import { FaTrash, FaPlus } from "react-icons/fa";
 import Button from "react-bootstrap/Button";
-import { useMemo } from "react";
 import TaskComponent from "./task";
 import { Droppable } from "react-beautiful-dnd";
 
-const ColumnComponent = ({ column }: any) => {
-  const tasks = useMemo(() => {
-    return column.tasks.sort((a: any, b: any) => {
-      return a.order - b.order;
-    });
-  }, [column.tasks]);
+const ColumnComponent = ({ column, index }: any) => {
 
   return (
     <Col md={3}>
@@ -46,10 +40,10 @@ const ColumnComponent = ({ column }: any) => {
           </Row>
         </Card.Header>
         <Card.Body style={{ backgroundColor: "#DDE6ED" }}>
-          <Droppable droppableId={`c-${column.id}`} type="task">
+          <Droppable droppableId={`c-${column.id}`}>
             {(provided) => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
-                {tasks.map((task: any, index: number) => (
+                {column.tasks.map((task: any, index: number) => (
                   <TaskComponent task={task} index={index} />
                 ))}
                 {provided.placeholder}
