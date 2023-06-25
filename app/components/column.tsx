@@ -7,7 +7,7 @@ import TaskComponent from "./task";
 import { Droppable } from "react-beautiful-dnd";
 
 const ColumnComponent = ({ column, index }: any) => {
-
+console.log(column);
   return (
     <Col md={3}>
       <Card>
@@ -40,7 +40,7 @@ const ColumnComponent = ({ column, index }: any) => {
           </Row>
         </Card.Header>
         <Card.Body style={{ backgroundColor: "#DDE6ED" }}>
-          <Droppable droppableId={`c-${column.id}`}>
+          <Droppable droppableId={column.id}>
             {(provided) => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
                 {column.tasks.map((task: any, index: number) => (
