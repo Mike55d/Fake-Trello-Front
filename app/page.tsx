@@ -1,7 +1,4 @@
 "use client";
-
-import Image from "next/image";
-import styles from "./page.module.css";
 import { Container, Row, Col } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import { FaPen, FaTrash } from "react-icons/fa";
@@ -9,19 +6,18 @@ import Button from "react-bootstrap/Button";
 
 const CardComponent = () => {
   return (
-    <Col >
-    <Card style={{ width: "18rem" }}>
+    <Card style={{ width: "100%", marginTop: 8 }}>
       <Card.Body>
         <Card.Title>
           <Row>
             <Col>
               <h6>Task Title</h6>
             </Col>
-            <Col style={{display:'flex', justifyContent:"flex-end"}}>
+            <Col style={{ display: "flex", justifyContent: "flex-end" }}>
               <Button
                 variant="outline-primary"
                 size="sm"
-                style={{ borderRadius: 20 , marginRight:5}}
+                style={{ borderRadius: 20, marginRight: 5 }}
               >
                 <FaPen />
               </Button>
@@ -35,14 +31,15 @@ const CardComponent = () => {
             </Col>
           </Row>
         </Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
-        <Card.Text>
+        <Card.Subtitle className="mb-2 text-muted" style={{ fontSize: 12 }}>
+          Card Subtitle
+        </Card.Subtitle>
+        <Card.Text style={{ fontSize: 10 }}>
           Some quick example text to build on the card title and make up the
           bulk of the card's content.
         </Card.Text>
       </Card.Body>
     </Card>
-    </Col>
   );
 };
 
@@ -51,11 +48,39 @@ export default function Home() {
     <>
       <Container style={{ marginTop: 15 }}>
         <Row>
-          
-            <CardComponent />
-            <CardComponent />
-            <CardComponent />
-            <CardComponent />
+          <Col md={3}>
+            <Card>
+              <Card.Header>Column Name</Card.Header>
+              <Card.Body>
+                <CardComponent />
+                <CardComponent />
+                <CardComponent />
+                <CardComponent />
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md={3}>
+            <Card>
+              <Card.Header>Column Name</Card.Header>
+              <Card.Body>
+                <CardComponent />
+                <CardComponent />
+                <CardComponent />
+                <CardComponent />
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md={3}>
+            <Card>
+              <Card.Header>Column Name</Card.Header>
+              <Card.Body>
+                <CardComponent />
+                <CardComponent />
+                <CardComponent />
+                <CardComponent />
+              </Card.Body>
+            </Card>
+          </Col>
         </Row>
       </Container>
     </>
