@@ -3,6 +3,8 @@ import { Container, Row, Col } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import { FaPen, FaTrash, FaPlus } from "react-icons/fa";
 import Button from "react-bootstrap/Button";
+import { useEffect, useState } from "react";
+import { getData } from "./api/column";
 
 const CardComponent = () => {
   return (
@@ -43,48 +45,73 @@ const CardComponent = () => {
   );
 };
 
+const ColumnComponent = ({ column }: any) => {
+  
+  return (
+    <Col md={3}>
+      <Card>
+        <Card.Header style={{ backgroundColor: "#DDE6ED" }}>
+          <Row>
+            <Col>
+              <h6 style={{ fontWeight: "bolder" }}>{column.title}</h6>
+            </Col>
+            <Col
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+              }}
+            >
+              <Button
+                variant="outline-success"
+                size="sm"
+                style={{ borderRadius: 20, marginRight: 5 }}
+              >
+                <FaPlus />
+              </Button>
+              <Button
+                variant="outline-danger"
+                size="sm"
+                style={{ borderRadius: 20 }}
+              >
+                <FaTrash />
+              </Button>
+            </Col>
+          </Row>
+        </Card.Header>
+        <Card.Body style={{ backgroundColor: "#DDE6ED" }}>
+          <CardComponent />
+          <CardComponent />
+          <CardComponent />
+          <CardComponent />
+        </Card.Body>
+      </Card>
+    </Col>
+  );
+};
+
 export default function Home() {
+  const [columnTasks, setColumnTasks] = useState<any[]>([]);
+
+  const getDataColumns = async () => {
+    const data = await getData();
+    setColumnTasks(data);
+  };
+
+  useEffect(() => {
+    getDataColumns();
+  }, []);
+
   return (
     <>
       <div style={{ marginTop: 15, marginLeft: 10, marginRight: 10 }}>
         <Row>
           <Col md={11}>
             <Row>
-              <Col md={3}>
-                <Card>
-                  <Card.Header style={{ backgroundColor: "#DDE6ED" }}>
-                    <Row>
-                      <Col>
-                        <h6 style={{ fontWeight: "bolder" }}>Column Name</h6>
-                      </Col>
-                      <Col
-                        style={{ display: "flex", justifyContent: "flex-end" }}
-                      >
-                        <Button
-                          variant="outline-success"
-                          size="sm"
-                          style={{ borderRadius: 20, marginRight: 5 }}
-                        >
-                          <FaPlus />
-                        </Button>
-                        <Button
-                          variant="outline-danger"
-                          size="sm"
-                          style={{ borderRadius: 20 }}
-                        >
-                          <FaTrash />
-                        </Button>
-                      </Col>
-                    </Row>
-                  </Card.Header>
-                  <Card.Body style={{ backgroundColor: "#DDE6ED" }}>
-                    <CardComponent />
-                    <CardComponent />
-                    <CardComponent />
-                    <CardComponent />
-                  </Card.Body>
-                </Card>
-              </Col>
+              {columnTasks
+                ? columnTasks.map((column) => (
+                    <ColumnComponent column={column} />
+                  ))
+                : null}
             </Row>
           </Col>
           <Col md={1}>
