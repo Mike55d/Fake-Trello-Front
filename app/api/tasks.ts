@@ -22,3 +22,8 @@ export const createTask = async (form: CreateTask) => {
   });
   return data;
 };
+
+export const deleteTask = async (id: number) => {
+  const { data } = await axios.delete(`${basePath}/tasks/${id}`);
+  return data;
+};

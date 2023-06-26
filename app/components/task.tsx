@@ -4,8 +4,14 @@ import Card from "react-bootstrap/Card";
 import { FaPen, FaTrash } from "react-icons/fa";
 import Button from "react-bootstrap/Button";
 import { Draggable } from "react-beautiful-dnd";
+import { deleteTask } from "../api/tasks";
 
-const TaskComponent = ({ task, index }: any) => {
+const TaskComponent = ({ task, index, getDataColumns }: any) => {
+  const handleDeleteTask = async () => {
+    await deleteTask(parseInt(task.id.split("-")[1]));
+    getDataColumns();
+  };
+
   return (
     <Draggable draggableId={task.id} index={index} key={index}>
       {(provided) => (
@@ -34,6 +40,7 @@ const TaskComponent = ({ task, index }: any) => {
                         variant="outline-danger"
                         size="sm"
                         style={{ borderRadius: 20 }}
+                        onClick={handleDeleteTask}
                       >
                         <FaTrash />
                       </Button>

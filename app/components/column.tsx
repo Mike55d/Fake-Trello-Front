@@ -112,7 +112,7 @@ const ColumnComponent = ({ column, index, getDataColumns }: any) => {
               {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
                   {column.tasks.map((task: any, index: number) => (
-                    <TaskComponent task={task} index={index} key={task.id} />
+                    <TaskComponent task={task} index={index} key={task.id} getDataColumns={getDataColumns} />
                   ))}
                   {provided.placeholder}
                 </div>
