@@ -16,3 +16,10 @@ export type ChangeColumn = {
   destinationIndex: number;
   columnDestiny: number;
 };
+
+export type CreateTask = {
+  title: string;
+  subtitle: string;
+  text: string;
+  columnId: number;
+};

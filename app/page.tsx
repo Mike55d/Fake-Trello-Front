@@ -139,7 +139,7 @@ export default function Home() {
                 <Row>
                   {columnTasks
                     ? columnTasks.map((column) => (
-                        <ColumnComponent column={column} key={column.id} />
+                        <ColumnComponent column={column} key={column.id} getDataColumns={getDataColumns} />
                       ))
                     : null}
                 </Row>

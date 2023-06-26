@@ -31,13 +31,6 @@ const TaskComponent = ({ task, index }: any) => {
                       style={{ display: "flex", justifyContent: "flex-end" }}
                     >
                       <Button
-                        variant="outline-primary"
-                        size="sm"
-                        style={{ borderRadius: 20, marginRight: 5 }}
-                      >
-                        <FaPen />
-                      </Button>
-                      <Button
                         variant="outline-danger"
                         size="sm"
                         style={{ borderRadius: 20 }}
