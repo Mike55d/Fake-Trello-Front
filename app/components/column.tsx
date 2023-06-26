@@ -9,6 +9,9 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
 import { createTask } from "../api/tasks";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { deleteColumn } from "../api/column";
 
 const ModalTasks = ({
   showModal,
@@ -74,6 +77,15 @@ const ColumnComponent = ({ column, index, getDataColumns }: any) => {
     getDataColumns();
   };
 
+  const handleDeleteColumn = async () => {
+    if (column.tasks.length) {
+      toast.warning("Cannot delete columns with tasks");
+      return;
+    }
+    await deleteColumn(parseInt(column.id.split("-")[1]));
+    getDataColumns();
+  };
+
   return (
     <>
       <Col md={3}>
@@ -101,6 +113,7 @@ const ColumnComponent = ({ column, index, getDataColumns }: any) => {
                   variant="outline-danger"
                   size="sm"
                   style={{ borderRadius: 20 }}
+                  onClick={() => handleDeleteColumn()}
                 >
                   <FaTrash />
                 </Button>
@@ -112,7 +125,12 @@ const ColumnComponent = ({ column, index, getDataColumns }: any) => {
               {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
                   {column.tasks.map((task: any, index: number) => (
-                    <TaskComponent task={task} index={index} key={task.id} getDataColumns={getDataColumns} />
+                    <TaskComponent
+                      task={task}
+                      index={index}
+                      key={task.id}
+                      getDataColumns={getDataColumns}
+                    />
                   ))}
                   {provided.placeholder}
                 </div>

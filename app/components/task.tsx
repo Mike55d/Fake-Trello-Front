@@ -1,7 +1,7 @@
 "use client";
 import { Row, Col } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
-import { FaPen, FaTrash } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 import Button from "react-bootstrap/Button";
 import { Draggable } from "react-beautiful-dnd";
 import { deleteTask } from "../api/tasks";

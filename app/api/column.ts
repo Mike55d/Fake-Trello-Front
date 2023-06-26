@@ -13,3 +13,8 @@ export const createColumn = async (form: ColumnForm) => {
   });
   return data;
 };
+
+export const deleteColumn = async (id: number) => {
+  const { data } = await axios.delete(`${basePath}/columns/${id}`);
+  return data;
+};

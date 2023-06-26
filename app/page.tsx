@@ -9,6 +9,8 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { changeColumn, sortTask } from "./api/tasks";
+import { ToastContainer } from 'react-toastify';
+
 
 const ModalColumns = ({
   showModal,
@@ -122,6 +124,8 @@ export default function Home() {
     handleDragTask(event);
   };
 
+
+
   const handleSubmitFormColumn = async () => {
     await createColumn(formColumn);
     setShowModal(false);
@@ -139,7 +143,11 @@ export default function Home() {
                 <Row>
                   {columnTasks
                     ? columnTasks.map((column) => (
-                        <ColumnComponent column={column} key={column.id} getDataColumns={getDataColumns} />
+                        <ColumnComponent
+                          column={column}
+                          key={column.id}
+                          getDataColumns={getDataColumns}
+                        />
                       ))
                     : null}
                 </Row>
@@ -163,6 +171,7 @@ export default function Home() {
         setFormColumn={setFormColumn}
         handleSubmitFormColumn={handleSubmitFormColumn}
       />
+      <ToastContainer />
     </>
   );
 }
