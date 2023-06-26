@@ -8,6 +8,7 @@ import ColumnComponent from "./components/column";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import { sortTask } from "./api/tasks";
 
 const ModalColumns = ({
   showModal,
@@ -56,7 +57,7 @@ export default function Home() {
         })
         .map((task: any) => ({
           ...task,
-          id: `task${task.id}`,
+          id: `t-${task.id}`,
         })),
     }));
     setColumnTasks(newData);
@@ -90,6 +91,12 @@ export default function Home() {
     const task = newColumnsTasks[columnIndex].tasks.splice(taskIndex, 1);
     if (destination.droppableId == source.droppableId) {
       newColumnsTasks[columnIndex].tasks.splice(destination.index, 0, task[0]);
+      sortTask({
+        columnId: parseInt(newColumnsTasks[columnIndex].id.split("-")[1]),
+        destinationIndex: destination.index,
+        sourceIndex: source.index,
+        taskId: parseInt(task[0].id.split("-")[1]),
+      });
       return;
     }
     if (columnIndex == -1 && columnDestinyIndex == -1) return;
@@ -98,7 +105,6 @@ export default function Home() {
       0,
       task[0]
     );
-    console.log(newColumnsTasks);
     setColumnTasks(newColumnsTasks);
   };
 
