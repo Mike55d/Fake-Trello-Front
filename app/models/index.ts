@@ -8,3 +8,11 @@ export type SortTask = {
   sourceIndex: number;
   destinationIndex: number;
 };
+
+export type ChangeColumn = {
+  taskId: number;
+  columnId: number;
+  sourceIndex: number;
+  destinationIndex: number;
+  columnDestiny: number;
+};
